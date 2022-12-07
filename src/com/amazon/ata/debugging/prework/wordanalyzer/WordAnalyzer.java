@@ -25,7 +25,7 @@ public class WordAnalyzer {
      * @return the first repeated character, or 0 if none found.
      */
     public char firstRepeatedCharacter() {
-        for (int i = 1; i < word.length() - 1; i++) {
+        for (int i = 0; i < word.length() - 1; i++) {
             char current = word.charAt(i);
             char adjacent = word.charAt(i + 1);
             if (current == adjacent) {
@@ -45,9 +45,9 @@ public class WordAnalyzer {
      * @return the first multiply occurring character, or 0 if none found
      */
     public char firstMultipleCharacter() {
-        for (int i = 0; i < word.length(); i++) {
+        for (int i = 0; i < word.length()-1; i++) {
             char ch = word.charAt(i);
-            if (find(ch, i) >= 0) {
+            if (find(ch, i+1) >= 0) {
                 return ch;
             }
         }
@@ -79,11 +79,13 @@ public class WordAnalyzer {
      */
     public int countRepeatedCharacters() {
         int numGroups = 0;
-        for (int i = 1; i < word.length() - 1; i++) {
+        for (int i = 0; i < word.length() - 1; i++) {
             // Is the next character part of the repeat?
-            if (word.charAt(i) == word.charAt(i + 1)) {
+            char curr_ch = word.charAt(i);
+            char next_ch = word.charAt(i+1);
+            if (curr_ch == next_ch) {
                 // Is this the start of the repeat?
-                if (!repeatsPreviousCharacter(i)) {
+                if (!repeatsPreviousCharacter(word,i)) {
                     numGroups++;
                 }
             }
@@ -98,8 +100,12 @@ public class WordAnalyzer {
      * @param i The location in {@code word} to inspect.
      * @return True if the character at i repeats the previous character, false otherwise.
      */
-    private boolean repeatsPreviousCharacter(int i) {
-        return word.charAt(i - 1) == word.charAt(i);
+    private boolean repeatsPreviousCharacter(String word, int i) {
+        if (i < 1){
+            return false;
+        } else {
+            return word.charAt(i - 1) == word.charAt(i);
+        }
     }
 
 }
